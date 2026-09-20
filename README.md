@@ -1,0 +1,68 @@
+# OCIGoat
+
+Vulnerable-by-design lab environments for Oracle Cloud Infrastructure (OCI).
+
+Same idea as [CloudGoat](https://github.com/RhinoSecurityLabs/cloudgoat), applied
+to OCI instead of AWS: Terraform builds a deliberately insecure environment,
+you investigate it, you destroy it when you're done. Built for security
+engineers, cloud analysts, and anyone learning offensive/defensive OCI
+security.
+
+OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
+
+## Status
+
+Early. One validated scenario so far. No CLI yet — you run Terraform
+directly. Treat this as a working prototype, not a finished product.
+
+## Requirements
+
+- [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm),
+  configured (`oci setup config`)
+- [Terraform](https://developer.hashicorp.com/terraform) >= 1.5.0
+- An OCI tenancy with a dedicated compartment (don't run this against your
+  root compartment)
+
+## Scenarios
+
+| ID | Name | Category | Difficulty |
+|---|---|---|---|
+| [SCN-NET-001](scenarios/SCN-NET-001) | Public Service Exposure | network | easy |
+
+Each scenario lives in its own folder under `scenarios/`, with its own
+Terraform, a player README (objective, no spoilers), and a separate
+`solution/` with the full walkthrough.
+
+## Quick start
+
+```bash
+cd scenarios/SCN-NET-001/terraform
+terraform init
+terraform apply \
+  -var="compartment_id=<your-compartment-ocid>" \
+  -var="operator_ssh_public_key=$(cat ~/.ssh/id_ed25519.pub)"
+```
+
+Read the scenario's own README before you start. When you're done:
+
+```bash
+terraform destroy
+```
+
+## Cost
+
+Scenarios are designed to fit inside the OCI Always Free tier where
+possible, but "Always Free" is not a blanket guarantee — it depends on your
+region, your tenancy's usage, and what Oracle currently offers. Check the
+cost notes in each scenario's `manifest.yml` before applying, and always run
+`terraform destroy` when you're finished.
+
+## Why this exists
+
+AWS has CloudGoat, iam-vulnerable, and a handful of others. GCP has
+GCP-goat and similar labs. OCI doesn't really have a maintained equivalent.
+That's the gap OCIGoat is for.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
