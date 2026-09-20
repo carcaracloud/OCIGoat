@@ -40,5 +40,5 @@ cost:
     are not billed as separate line items as far as Oracle's published
     pricing pages show, but this was not found stated as an explicit
     guarantee anywhere official. "Always Free" is never a permanent
-    guarantee — reconfirm against current Oracle documentation before
+    guarantee. Reconfirm against current Oracle documentation before
     relying on it. Always run terraform destroy when done.
