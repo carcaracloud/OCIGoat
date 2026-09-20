@@ -12,7 +12,7 @@ OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
 
 ## Status
 
-Early. One validated scenario so far. No CLI yet — you run Terraform
+Early. One validated scenario so far. No CLI yet, you run Terraform
 directly. Treat this as a working prototype, not a finished product.
 
 ## Requirements
@@ -52,7 +52,7 @@ terraform destroy
 ## Cost
 
 Scenarios are designed to fit inside the OCI Always Free tier where
-possible, but "Always Free" is not a blanket guarantee — it depends on your
+possible, but "Always Free" is not a blanket guarantee. It depends on your
 region, your tenancy's usage, and what Oracle currently offers. Check the
 cost notes in each scenario's `manifest.yml` before applying, and always run
 `terraform destroy` when you're finished.
@@ -65,4 +65,4 @@ That's the gap OCIGoat is for.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
