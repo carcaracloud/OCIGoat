@@ -1,0 +1,36 @@
+id: SCN-IAM-003
+name: API Key Impersonation via Manage Users
+version: 1.0.0
+
+category:
+  - iam
+  - privilege-escalation
+  - credential-abuse
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Identity resources (users, groups, policies) do not appear as
+    billed line items on any Oracle pricing page checked for this
+    project. Always run terraform destroy when done.
