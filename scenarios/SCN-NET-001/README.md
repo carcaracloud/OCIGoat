@@ -16,8 +16,8 @@ from outside the network.
 - OCI CLI configured (`oci setup config`)
 - Terraform >= 1.5.0
 - A compartment OCID you're authorized to deploy into
-- An SSH public key (used for admin access to the instance if you need it
-  — not required to complete the objective)
+- An SSH public key (used for admin access to the instance if you need it,
+  not required to complete the objective)
 
 ## Deploy
 
@@ -30,13 +30,13 @@ terraform apply \
 ```
 
 Wait for the instance to finish booting (a minute or two) before testing
-anything — `terraform apply` finishing doesn't mean the service inside the
+anything. `terraform apply` finishing doesn't mean the service inside the
 instance is ready.
 
 ## Where to start
 
 - `terraform output test_service_url` gives you a URL. Try it.
-- Look at what network resources actually got created — there's more than
+- Look at what network resources actually got created. There's more than
   one layer of firewalling involved, and they don't necessarily agree with
   each other.
 - The OCI CLI (`oci network security-list get`, `oci network nsg rules
@@ -49,7 +49,7 @@ instance is ready.
 terraform destroy
 ```
 
-Verify independently that nothing survived — don't just trust the exit
+Verify independently that nothing survived. Don't just trust the exit
 code. See `manifest.yml` for the resources this scenario creates.
 
 ## Solution
