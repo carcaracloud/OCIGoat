@@ -1,0 +1,48 @@
+id: SCN-IAM-004
+name: Compartment-Scoped Dynamic Group Self-Enrollment
+version: 1.0.0
+
+category:
+  - iam
+  - compute
+  - privilege-escalation
+
+difficulty: hard
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - core_vcn
+  - core_internet_gateway
+  - core_route_table
+  - core_security_list
+  - core_subnet
+  - identity_dynamic_group
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Network and identity resources follow the same Always Free profile
+    already established for SCN-NET-001 and the SCN-IAM-* scenarios.
+    The instance created during this scenario is not provisioned by
+    Terraform; it is created by the player and must use
+    VM.Standard.E2.1.Micro or VM.Standard.A1.Flex to stay Always Free.
+    VM.Standard.A1.Flex capacity is not guaranteed in every region or
+    availability domain; VM.Standard.E2.1.Micro is the reliable
+    fallback. Always terminate the instance and run terraform destroy
+    when done.
