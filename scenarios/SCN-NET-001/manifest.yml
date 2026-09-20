@@ -1,0 +1,44 @@
+id: SCN-NET-001
+name: Public Service Exposure
+version: 1.0.0
+
+category:
+  - network
+  - nsg
+  - security-list
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - vcn
+  - subnet
+  - internet_gateway
+  - route_table
+  - security_list
+  - network_security_group
+  - network_security_group_security_rule
+  - compute_instance
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Compute instance defaults to VM.Standard.E2.1.Micro (Always Free at
+    time of writing, up to 2 per tenancy). VCN is Always Free (up to 2 per
+    tenancy). Subnet, Internet Gateway, Route Table, Security List, and NSG
+    are not billed as separate line items as far as Oracle's published
+    pricing pages show, but this was not found stated as an explicit
+    guarantee anywhere official. "Always Free" is never a permanent
+    guarantee — reconfirm against current Oracle documentation before
+    relying on it. Always run terraform destroy when done.
