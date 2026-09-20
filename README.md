@@ -12,7 +12,7 @@ OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
 
 ## Status
 
-Early. One validated scenario so far. No CLI yet, you run Terraform
+Early. Two validated scenarios so far. No CLI yet, you run Terraform
 directly. Treat this as a working prototype, not a finished product.
 
 ## Requirements
@@ -28,6 +28,7 @@ directly. Treat this as a working prototype, not a finished product.
 | ID | Name | Category | Difficulty |
 |---|---|---|---|
 | [SCN-NET-001](scenarios/SCN-NET-001) | Public Service Exposure | network | easy |
+| [SCN-IAM-001](scenarios/SCN-IAM-001) | Policy Rewrite Privilege Escalation | iam | easy |
 
 Each scenario lives in its own folder under `scenarios/`, with its own
 Terraform, a player README (objective, no spoilers), and a separate
