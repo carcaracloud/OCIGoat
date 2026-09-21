@@ -1,0 +1,32 @@
+id: SCN-REGISTRY-001
+name: Public Container Repository Exposure
+version: 1.0.0
+
+category:
+  - container-registry
+  - data-exposure
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - artifacts_container_repository
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Container Registry charges for stored images at Object Storage
+    rates, per Oracle's own documentation. A minimal fixture image is a
+    few hundred bytes, trivially inside any plausible limit. Always run
+    terraform destroy when done.
