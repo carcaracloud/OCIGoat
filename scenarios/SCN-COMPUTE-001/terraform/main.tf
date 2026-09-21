@@ -29,6 +29,11 @@ variable "test_user_api_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = ["10.7.0.0/16"]
@@ -115,6 +120,19 @@ resource "oci_core_instance" "source" {
   source_details {
     source_type = "image"
     source_id   = data.oci_core_images.source_image.images[0].id
+  }
+
+  metadata = {
+    user_data = base64encode(<<-EOF
+      #cloud-config
+      write_files:
+        - path: /home/opc/flag.txt
+          content: |
+            ${var.flag_content}
+          owner: opc:opc
+          permissions: '0644'
+    EOF
+    )
   }
 }
 

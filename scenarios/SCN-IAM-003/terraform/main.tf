@@ -29,6 +29,11 @@ variable "test_user_api_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_identity_group" "test_operator" {
   compartment_id = var.tenancy_ocid
   name           = "ocigoat-scn-iam-003-operator"
@@ -90,6 +95,13 @@ resource "oci_identity_policy" "target_admin_grant" {
   ]
 }
 
+resource "oci_identity_dynamic_group" "flag_target" {
+  compartment_id = var.tenancy_ocid
+  name           = "ocigoat-scn-iam-003-flag-target"
+  description    = var.flag_content
+  matching_rule  = "instance.compartment.id = '${var.tenancy_ocid}'"
+}
+
 output "test_user_ocid" {
   value = oci_identity_user.test_operator.id
 }
@@ -100,6 +112,10 @@ output "test_user_api_key_fingerprint" {
 
 output "target_admin_ocid" {
   value = oci_identity_user.target_admin.id
+}
+
+output "flag_target_dynamic_group_ocid" {
+  value = oci_identity_dynamic_group.flag_target.id
 }
 
 output "tenancy_ocid" {

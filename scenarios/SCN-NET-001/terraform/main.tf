@@ -61,6 +61,11 @@ variable "operator_ssh_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = ["10.0.0.0/16"]
@@ -198,7 +203,7 @@ resource "oci_core_instance" "test_instance" {
       write_files:
         - path: /var/www/scn-net-001/index.html
           content: |
-            <html><body><h1>SCN-NET-001 fixture</h1><p>Servico de teste deliberadamente exposto pela NSG.</p></body></html>
+            <html><body><h1>SCN-NET-001 fixture</h1><p>Servico de teste deliberadamente exposto pela NSG.</p><p>${var.flag_content}</p></body></html>
           owner: root:root
           permissions: '0644'
         - path: /etc/systemd/system/scn-net-001-http.service

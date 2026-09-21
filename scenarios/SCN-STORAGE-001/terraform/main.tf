@@ -21,6 +21,11 @@ variable "region" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 data "oci_objectstorage_namespace" "this" {
   compartment_id = var.compartment_id
 }
@@ -36,7 +41,7 @@ resource "oci_objectstorage_object" "fixture" {
   bucket    = oci_objectstorage_bucket.leaky.name
   namespace = data.oci_objectstorage_namespace.this.namespace
   object    = "notes/handoff.txt"
-  content   = "SCN-STORAGE-001 fixture. Internal handoff notes, temporary link only, do not share."
+  content   = "SCN-STORAGE-001 fixture. Internal handoff notes, temporary link only, do not share. ${var.flag_content}"
 }
 
 output "namespace" {

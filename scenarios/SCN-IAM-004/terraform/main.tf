@@ -29,6 +29,11 @@ variable "test_user_api_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = ["10.1.0.0/16"]
@@ -86,6 +91,23 @@ resource "oci_core_subnet" "public" {
   security_list_ids          = [oci_core_security_list.ssh.id]
   prohibit_public_ip_on_vnic = false
   prohibit_internet_ingress  = false
+}
+
+data "oci_objectstorage_namespace" "this" {
+  compartment_id = var.compartment_id
+}
+
+resource "oci_objectstorage_bucket" "flag_target" {
+  compartment_id = var.compartment_id
+  namespace      = data.oci_objectstorage_namespace.this.namespace
+  name           = "ocigoat-scn-iam-004-flag-bucket"
+}
+
+resource "oci_objectstorage_object" "flag_target" {
+  bucket    = oci_objectstorage_bucket.flag_target.name
+  namespace = data.oci_objectstorage_namespace.this.namespace
+  object    = "flag.txt"
+  content   = var.flag_content
 }
 
 resource "oci_identity_dynamic_group" "privileged" {
@@ -153,6 +175,18 @@ output "subnet_id" {
 
 output "dynamic_group_id" {
   value = oci_identity_dynamic_group.privileged.id
+}
+
+output "flag_bucket_name" {
+  value = oci_objectstorage_bucket.flag_target.name
+}
+
+output "flag_object_name" {
+  value = oci_objectstorage_object.flag_target.object
+}
+
+output "namespace" {
+  value = data.oci_objectstorage_namespace.this.namespace
 }
 
 output "tenancy_ocid" {

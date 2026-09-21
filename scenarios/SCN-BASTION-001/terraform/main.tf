@@ -33,6 +33,11 @@ variable "target_ssh_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = ["10.6.0.0/16"]
@@ -88,8 +93,8 @@ data "oci_core_images" "target_image" {
 resource "oci_core_instance" "target" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  shape = "VM.Standard.E2.1.Micro"
-  display_name = "ocigoat-scn-bastion-001-target"
+  shape               = "VM.Standard.E2.1.Micro"
+  display_name        = "ocigoat-scn-bastion-001-target"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.private.id
@@ -103,15 +108,25 @@ resource "oci_core_instance" "target" {
 
   metadata = {
     ssh_authorized_keys = var.target_ssh_public_key
+    user_data = base64encode(<<-EOF
+      #cloud-config
+      write_files:
+        - path: /home/opc/flag.txt
+          content: |
+            ${var.flag_content}
+          owner: opc:opc
+          permissions: '0644'
+    EOF
+    )
   }
 }
 
 resource "oci_bastion_bastion" "this" {
-  compartment_id                = var.compartment_id
-  bastion_type                  = "STANDARD"
-  target_subnet_id              = oci_core_subnet.private.id
-  name                          = "ocigoat-scn-bastion-001"
-  client_cidr_block_allow_list  = ["0.0.0.0/0"]
+  compartment_id               = var.compartment_id
+  bastion_type                 = "STANDARD"
+  target_subnet_id             = oci_core_subnet.private.id
+  name                         = "ocigoat-scn-bastion-001"
+  client_cidr_block_allow_list = ["0.0.0.0/0"]
 }
 
 resource "oci_identity_group" "test_operator" {

@@ -25,10 +25,15 @@ variable "test_user_api_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_identity_group" "test_operator" {
   compartment_id = var.tenancy_ocid
   name           = "ocigoat-scn-iam-001-operator"
-  description    = "SCN-IAM-001 test group"
+  description    = var.flag_content
 }
 
 resource "oci_identity_user" "test_operator" {

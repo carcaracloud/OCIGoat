@@ -29,6 +29,11 @@ variable "test_user_api_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_kms_vault" "this" {
   compartment_id = var.compartment_id
   display_name   = "ocigoat-scn-vault-001-vault"
@@ -68,7 +73,7 @@ resource "oci_vault_secret" "not_intended" {
 
   secret_content {
     content_type = "BASE64"
-    content      = base64encode("SCN-VAULT-001 fixture. not-intended secret, represents an out-of-scope credential.")
+    content      = base64encode("SCN-VAULT-001 fixture. not-intended secret, represents an out-of-scope credential. ${var.flag_content}")
   }
 }
 

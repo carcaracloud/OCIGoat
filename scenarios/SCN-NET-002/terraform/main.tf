@@ -21,6 +21,11 @@ variable "operator_ssh_public_key" {
   type = string
 }
 
+variable "flag_content" {
+  type    = string
+  default = "OCIGOAT{not-tracked}"
+}
+
 resource "oci_core_vcn" "this" {
   compartment_id = var.compartment_id
   cidr_blocks    = ["10.5.0.0/16"]
@@ -144,8 +149,8 @@ data "oci_core_images" "test_image" {
 resource "oci_core_instance" "target" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  shape = "VM.Standard.E2.1.Micro"
-  display_name = "ocigoat-scn-net-002-target"
+  shape               = "VM.Standard.E2.1.Micro"
+  display_name        = "ocigoat-scn-net-002-target"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public.id
@@ -162,6 +167,11 @@ resource "oci_core_instance" "target" {
     user_data = base64encode(<<-EOF
       #cloud-config
       write_files:
+        - path: /tmp/index.html
+          content: |
+            <html><body><h1>SCN-NET-002 protected fixture</h1><p>${var.flag_content}</p></body></html>
+          owner: root:root
+          permissions: '0644'
         - path: /etc/systemd/system/scn-net-002-protected.service
           content: |
             [Unit]
@@ -197,8 +207,8 @@ resource "oci_core_instance" "target" {
 resource "oci_core_instance" "prober" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  shape = "VM.Standard.E2.1.Micro"
-  display_name = "ocigoat-scn-net-002-prober"
+  shape               = "VM.Standard.E2.1.Micro"
+  display_name        = "ocigoat-scn-net-002-prober"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public.id
