@@ -7,6 +7,7 @@ dependencies = ["PyYAML>=6.0"]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
+certificate = ["fpdf2>=2.7"]
 
 [project.scripts]
 ocigoat = "ocigoat.cli:main"
