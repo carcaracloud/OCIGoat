@@ -94,3 +94,25 @@ def test_extra_vars_persisted_at_create_are_used_at_destroy(repo_root_override, 
 
     args, _kwargs = destroy_call.call_args
     assert "-var=foo=bar" in args[1]
+
+
+def test_flag_content_autofilled_on_destroy(repo_root_override, monkeypatch):
+    record, scenario_dir = _record(repo_root_override, "SCN-FAKE-FLAG")
+    (record.path / "terraform" / "main.tf").write_text(
+        'variable "flag_content" {\n  type = string\n}\n', encoding="utf-8"
+    )
+    manifest = Manifest(
+        id="SCN-FAKE-FLAG", name="x", version="1", resources=["core_vcn"], requirements={"flag": True}
+    )
+    monkeypatch.setattr(destroy_cmd.scenarios, "get_scenario", lambda sid: manifest)
+    monkeypatch.setattr(destroy_cmd.oci_profile, "resolve_admin_config_file", lambda *a, **k: record.path / "admin_oci_config")
+    (record.path / "terraform" / "terraform.tfstate").write_text(
+        '{"resources": [{"type": "oci_core_vcn"}]}', encoding="utf-8"
+    )
+
+    with patch("ocigoat.commands.destroy_cmd.terraform.destroy") as destroy_call:
+        result = destroy_cmd._destroy_instance(record, _cfg(), assume_yes=True)
+
+    assert result is True
+    args, _kwargs = destroy_call.call_args
+    assert any(arg.startswith("-var=flag_content=") for arg in args[1])

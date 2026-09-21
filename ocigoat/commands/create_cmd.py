@@ -2,7 +2,7 @@ import json
 import os
 
 from ocigoat import config as config_module
-from ocigoat import credential, instances, oci_profile, paths, scenarios, terraform, tfvars, ui
+from ocigoat import credential, flags, instances, oci_profile, paths, progress, scenarios, terraform, tfvars, ui
 from ocigoat.errors import OcigoatError
 
 EXTRA_VARS_FILE = "extra_vars.json"
@@ -34,6 +34,10 @@ def run(args):
         ui.info("generating test-operator API keypair")
         private_key, public_key = credential.generate_keypair(instance_dir)
         known_values["test_user_api_public_key"] = public_key.read_text(encoding="utf-8")
+
+    if manifest.flag:
+        flag_value = flags.generate_flag(manifest.id)
+        known_values["flag_content"] = flag_value
 
     admin_config = oci_profile.resolve_admin_config_file(cfg.oci_cli_profile, instance_dir)
     env = dict(os.environ)
@@ -83,6 +87,16 @@ def run(args):
                 "manifest declares player_credential but terraform outputs don't include "
                 "test_user_ocid / test_user_api_key_fingerprint; skipping profile write"
             )
+
+    if manifest.flag:
+        try:
+            progress.record_flag_hash(manifest.id, flags.hash_flag(flag_value))
+            ui.info(
+                f"flag generated for {manifest.id}. Find it via the real exploit, "
+                f"then run 'ocigoat submit {manifest.id} <flag>'."
+            )
+        except OSError as exc:
+            ui.warn(f"could not update local progress store: {exc}")
 
     readme = scenarios.scenario_readme_path(manifest)
     instances.write_start_txt(instance_dir, outputs, readme)

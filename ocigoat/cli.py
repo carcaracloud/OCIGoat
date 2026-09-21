@@ -1,8 +1,9 @@
 import argparse
 import sys
+from pathlib import Path
 
 from ocigoat import ui
-from ocigoat.commands import config_cmd, create_cmd, destroy_cmd, list_cmd
+from ocigoat.commands import certificate_cmd, config_cmd, create_cmd, destroy_cmd, list_cmd, progress_cmd, submit_cmd
 from ocigoat.errors import OcigoatError
 
 
@@ -37,6 +38,19 @@ def build_parser():
     destroy_parser.add_argument("-y", "--yes", action="store_true", help="skip confirmation prompts")
     destroy_parser.add_argument("--var", action="append", help="override a persisted -var KEY=VALUE, repeatable")
     destroy_parser.set_defaults(func=destroy_cmd.run)
+
+    submit_parser = subparsers.add_parser("submit", help="submit a captured flag for a scenario")
+    submit_parser.add_argument("scenario_id")
+    submit_parser.add_argument("flag")
+    submit_parser.set_defaults(func=submit_cmd.run)
+
+    progress_parser = subparsers.add_parser("progress", help="show flag-capture progress")
+    progress_parser.set_defaults(func=progress_cmd.run)
+
+    certificate_parser = subparsers.add_parser("certificate", help="generate a local certificate of completion")
+    certificate_parser.add_argument("--name", required=True, help="name to print on the certificate")
+    certificate_parser.add_argument("--out", type=Path, default=None, help="output PDF path")
+    certificate_parser.set_defaults(func=certificate_cmd.run)
 
     return parser
 

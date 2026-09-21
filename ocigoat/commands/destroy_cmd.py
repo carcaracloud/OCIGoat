@@ -43,6 +43,11 @@ def _destroy_instance(record, cfg, assume_yes, cli_extra_vars=None):
     if manifest.player_credential and public_key_path.exists():
         known_values["test_user_api_public_key"] = public_key_path.read_text(encoding="utf-8")
 
+    if manifest.flag:
+        # destroy never recomputes resource content from this value, it only
+        # needs something syntactically valid to satisfy the variable.
+        known_values["flag_content"] = "unused-on-destroy"
+
     admin_config = oci_profile.resolve_admin_config_file(cfg.oci_cli_profile, record.path)
     env = dict(os.environ)
     env["OCI_CONFIG_FILE"] = str(admin_config)
