@@ -12,7 +12,7 @@ OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
 
 ## Status
 
-Early. Twelve validated scenarios so far. No CLI yet, you run Terraform
+Early. Fifteen validated scenarios so far. No CLI yet, you run Terraform
 directly. Treat this as a working prototype, not a finished product.
 
 ## Requirements
@@ -39,6 +39,9 @@ directly. Treat this as a working prototype, not a finished product.
 | [SCN-VAULT-001](scenarios/SCN-VAULT-001) | Compartment-Scoped Secret Policy Without Target Condition | vault | easy |
 | [SCN-NET-002](scenarios/SCN-NET-002) | Transitive Reachability Through a Shared Network Security Group | network | medium |
 | [SCN-BASTION-001](scenarios/SCN-BASTION-001) | Bastion Session Allowlist Open to Any Client IP | bastion | medium |
+| [SCN-ORM-001](scenarios/SCN-ORM-001) | Resource Manager Stack State Exposed by Read-Only Access | resource-manager | easy |
+| [SCN-STORAGE-002](scenarios/SCN-STORAGE-002) | Backup Bucket Without Versioning or Retention Rules | storage | easy |
+| [SCN-REGISTRY-002](scenarios/SCN-REGISTRY-002) | Secret Embedded in a Public Container Image Layer | container-registry | easy |
 
 Each scenario lives in its own folder under `scenarios/`, with its own
 Terraform, a player README (objective, no spoilers), and a separate
