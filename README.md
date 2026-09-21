@@ -12,8 +12,10 @@ OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
 
 ## Status
 
-Early. Sixteen validated scenarios so far. No CLI yet, you run Terraform
-directly. Treat this as a working prototype, not a finished product.
+Early. Sixteen validated scenarios so far. An early CLI wrapper
+(`ocigoat/`) exists now, but running Terraform directly still works and
+is what the scenario READMEs document by default. Treat this as a
+working prototype, not a finished product.
 
 ## Requirements
 
@@ -66,6 +68,24 @@ Read the scenario's own README before you start. When you're done:
 ```bash
 terraform destroy
 ```
+
+## CLI (optional, early)
+
+`ocigoat/` wraps that same workflow: generates the test-operator API
+key for scenarios that need one, writes a scoped OCI CLI profile per
+deployed instance (never touches your real `~/.oci/config`), and keeps
+Terraform state under `instances/<id>/` instead of inside the scenario
+folder.
+
+```bash
+pip install -e .
+ocigoat config
+ocigoat create SCN-NET-001
+ocigoat destroy SCN-NET-001
+```
+
+`ocigoat create` always shows the `terraform plan` before applying
+anything. Run `ocigoat --help` for the full command surface.
 
 ## Cost
 
