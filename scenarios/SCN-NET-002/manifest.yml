@@ -1,0 +1,41 @@
+id: SCN-NET-002
+name: Transitive Reachability Through a Shared Network Security Group
+version: 1.0.0
+
+category:
+  - network
+  - network-security-group
+  - lateral-movement
+
+difficulty: medium
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - core_vcn
+  - core_internet_gateway
+  - core_route_table
+  - core_security_list
+  - core_subnet
+  - core_network_security_group
+  - core_network_security_group_security_rule
+  - core_instance
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Uses 2 VM.Standard.E2.1.Micro instances, the full Always Free
+    Compute allowance for a tenancy (up to 2). 1 VCN, well within the
+    2-per-tenancy Always Free limit. Do not run this alongside another
+    scenario that also needs Compute instances. Always run terraform
+    destroy when done.
