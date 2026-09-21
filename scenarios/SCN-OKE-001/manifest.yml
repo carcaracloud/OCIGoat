@@ -1,0 +1,40 @@
+id: SCN-OKE-001
+name: Public Kubernetes API Endpoint Exposure
+version: 1.0.0
+
+category:
+  - oke
+  - kubernetes
+  - reconnaissance
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - core_vcn
+  - core_internet_gateway
+  - core_route_table
+  - core_security_list
+  - core_subnet
+  - containerengine_cluster
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Basic Cluster control plane is free per Oracle's own price list.
+    Enhanced Cluster costs $0.10/hour and is never used by this
+    scenario. No node pool is created, so no Compute cost applies.
+    Cluster create/destroy each take several minutes; this is normal
+    OKE behavior, not a stuck apply. Always run terraform destroy when
+    done.
