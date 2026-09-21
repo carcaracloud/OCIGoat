@@ -1,0 +1,40 @@
+id: SCN-ORM-001
+name: Resource Manager Stack State Exposed by Read-Only Access
+version: 1.0.0
+
+category:
+  - resource-manager
+  - state-exposure
+  - privilege-escalation
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Resource Manager (creating and running stacks and jobs) does not
+    appear as a billed line item on any Oracle pricing page checked
+    for this project. The target stack in this scenario provisions no
+    OCI resources at all, only a hashicorp/random value. Identity
+    resources do not appear as billed line items either. Always run
+    terraform destroy when done, and destroy the target stack itself
+    (see README).
