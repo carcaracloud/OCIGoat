@@ -4,7 +4,7 @@ from ocigoat.tfvars import build_var_args, discover_declared_variables
 def test_discover_variables_iam_001(real_repo_root):
     terraform_dir = real_repo_root / "scenarios" / "SCN-IAM-001" / "terraform"
     declared = discover_declared_variables(terraform_dir)
-    assert declared == {"tenancy_ocid", "test_user_email", "test_user_api_public_key"}
+    assert declared == {"tenancy_ocid", "test_user_email", "test_user_api_public_key", "flag_content"}
 
 
 def test_discover_variables_net_001(real_repo_root):
@@ -18,6 +18,7 @@ def test_discover_variables_net_001(real_repo_root):
         "availability_domain_name",
         "test_service_port",
         "operator_ssh_public_key",
+        "flag_content",
     }
 
 
