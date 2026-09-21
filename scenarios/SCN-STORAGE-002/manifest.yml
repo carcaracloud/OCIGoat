@@ -1,0 +1,40 @@
+id: SCN-STORAGE-002
+name: Backup Bucket Without Versioning or Retention Rules
+version: 1.0.0
+
+category:
+  - storage
+  - object-storage
+  - data-durability
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - objectstorage_bucket
+  - objectstorage_object
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Object Storage Always Free includes up to 20 GB combined across
+    tiers and 50,000 API requests per month. The fixture object is a
+    few dozen bytes. Identity resources do not appear as billed line
+    items on any Oracle pricing page checked for this project. Always
+    run terraform destroy when done.
