@@ -1,0 +1,22 @@
+[project]
+name = "ocigoat"
+version = "0.1.0"
+description = "CLI for deploying and tearing down OCIGoat scenarios"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+ocigoat = "ocigoat.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ocigoat*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
