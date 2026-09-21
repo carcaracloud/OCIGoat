@@ -34,6 +34,7 @@ requirements:
   terraform: ">=1.5.0"
   oci_provider: "9.2.0"
   curl: any recent version
+  player_credential: true
 
 cost:
   always_free_preferred: true
@@ -45,3 +46,13 @@ cost:
     that allowance but not negligible. Always run terraform destroy
     when done, and confirm no multipart upload is left behind in the
     bucket (see the scenario README).
+
+cleanup:
+  manual_cleanup_note: >
+    The image export writes its destination object as a multipart
+    upload. Deleting the finished object does not close that upload
+    out. Abort it before destroying the bucket, or terraform destroy
+    fails with BucketNotEmpty (confirmed in this project's own
+    validation run): oci os multipart list / oci os multipart abort.
+    Also delete the pre-authenticated request and the custom image
+    themselves first; neither is a terraform resource.
