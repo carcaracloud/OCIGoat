@@ -1,3 +1,5 @@
+![OCIGoat](assets/banner.webp)
+
 # OCIGoat
 
 Vulnerable-by-design lab environments for Oracle Cloud Infrastructure (OCI).
