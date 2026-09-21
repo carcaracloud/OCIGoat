@@ -25,6 +25,10 @@ class Manifest:
         return bool(self.requirements.get("player_credential", False))
 
     @property
+    def flag(self):
+        return bool(self.requirements.get("flag", False))
+
+    @property
     def manual_cleanup_note(self):
         return self.cleanup.get("manual_cleanup_note")
 

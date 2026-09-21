@@ -2,7 +2,7 @@ import re
 
 VARIABLE_BLOCK_RE = re.compile(r'^variable\s+"([A-Za-z0-9_]+)"\s*\{', re.MULTILINE)
 
-KNOWN_AUTOFILL_VARS = {"compartment_id", "tenancy_ocid", "region", "test_user_api_public_key"}
+KNOWN_AUTOFILL_VARS = {"compartment_id", "tenancy_ocid", "region", "test_user_api_public_key", "flag_content"}
 
 
 def discover_declared_variables(terraform_dir):

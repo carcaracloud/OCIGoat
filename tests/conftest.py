@@ -47,3 +47,12 @@ def repo_root_override(fake_repo):
 def real_repo_root():
     paths.set_repo_root(None)
     return paths.repo_root()
+
+
+@pytest.fixture
+def home_dir_override(tmp_path):
+    home = tmp_path / "home"
+    home.mkdir()
+    paths.set_home_dir(home)
+    yield home
+    paths.set_home_dir(None)
