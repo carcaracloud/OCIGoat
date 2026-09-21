@@ -1,0 +1,47 @@
+id: SCN-COMPUTE-001
+name: Custom Image Export Combined with a Pre-Authenticated Request
+version: 1.0.0
+
+category:
+  - compute
+  - storage
+
+difficulty: medium
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - core_vcn
+  - core_internet_gateway
+  - core_route_table
+  - core_security_list
+  - core_subnet
+  - core_instance
+  - objectstorage_bucket
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+  curl: any recent version
+
+cost:
+  always_free_preferred: true
+  notes: >
+    VM.Standard.E2.1.Micro is Always Free (1 of the 2 available
+    instances). Object Storage Always Free covers 20GB; the exported
+    image from a minimally provisioned Oracle Linux 8 instance came to
+    roughly 2.8GB in this project's own validation run, well inside
+    that allowance but not negligible. Always run terraform destroy
+    when done, and confirm no multipart upload is left behind in the
+    bucket (see the scenario README).
