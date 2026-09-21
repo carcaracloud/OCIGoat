@@ -1,0 +1,32 @@
+id: SCN-DATABASE-001
+name: Autonomous Database Open by Default Without an Access Control List
+version: 1.0.0
+
+category:
+  - database
+  - autonomous-database
+  - data-exposure
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - database_autonomous_database
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Every tenancy gets two Always Free Autonomous Databases (1 OCPU,
+    20 GB storage each). is_free_tier = true in this scenario's
+    Terraform uses one of them. Always run terraform destroy when done.
