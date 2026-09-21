@@ -35,6 +35,7 @@ requirements:
   oci_provider: "9.2.0"
   curl: any recent version
   player_credential: true
+  flag: true
 
 cost:
   always_free_preferred: true

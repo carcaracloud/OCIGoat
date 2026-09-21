@@ -24,6 +24,7 @@ lifecycle:
 requirements:
   terraform: ">=1.5.0"
   oci_provider: "9.2.0"
+  flag: true
 
 cost:
   always_free_preferred: true
