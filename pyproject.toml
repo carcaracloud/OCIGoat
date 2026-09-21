@@ -19,5 +19,8 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 include = ["ocigoat*"]
 
+[tool.setuptools.package-data]
+ocigoat = ["assets/*.webp", "assets/*.png"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
