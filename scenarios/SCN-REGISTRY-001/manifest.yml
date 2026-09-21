@@ -22,6 +22,7 @@ lifecycle:
 requirements:
   terraform: ">=1.5.0"
   oci_provider: "9.2.0"
+  docker: any recent version, or curl + python3 as a substitute
 
 cost:
   always_free_preferred: true

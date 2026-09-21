@@ -23,6 +23,9 @@ directly. Treat this as a working prototype, not a finished product.
 - An OCI tenancy with a dedicated compartment (don't run this against your
   root compartment)
 
+Some scenarios need extra tools (`docker`, `openssl`/`ssh-keygen`). Each
+scenario's own README lists exactly what it needs beyond this baseline.
+
 ## Scenarios
 
 | ID | Name | Category | Difficulty |

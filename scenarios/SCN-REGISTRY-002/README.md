@@ -28,14 +28,10 @@ Then build and push a small fixture image with a secret written in one
 layer and removed in a later one:
 
 ```dockerfile
-FROM scratch
+FROM busybox
 COPY credentials.txt /opt/app/config/credentials.txt
 RUN rm /opt/app/config/credentials.txt
 ```
-
-(adjust the second line for whatever base image you use; `RUN rm` needs
-a shell, so a minimal non-`scratch` base like `busybox` works if you
-want to build it literally)
 
 ```bash
 echo "AWS_SECRET_ACCESS_KEY=fake-not-real-AKIA1234567890EXAMPLE" > credentials.txt
@@ -43,6 +39,11 @@ docker build -t <region-key>.ocir.io/<namespace>/ocigoat-scn-registry-002-repo:l
 docker login <region-key>.ocir.io -u '<namespace>/<your-username>'
 docker push <region-key>.ocir.io/<namespace>/ocigoat-scn-registry-002-repo:latest
 ```
+
+Your tenancy's Object Storage namespace is your OCIR namespace too
+(`oci os ns get`). Region key is your region's nearest airport code:
+`phx` (Phoenix), `iad` (Ashburn), `gru` (São Paulo), `fra` (Frankfurt),
+`lhr` (London), and so on.
 
 ## Where to start
 

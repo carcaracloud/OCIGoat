@@ -103,7 +103,7 @@ resource "oci_core_network_security_group_security_rule" "protected_allow_truste
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = oci_core_network_security_group.trusted.id
-  source_type                = "NETWORK_SECURITY_GROUP"
+  source_type               = "NETWORK_SECURITY_GROUP"
 
   tcp_options {
     destination_port_range {
@@ -118,7 +118,7 @@ resource "oci_core_network_security_group_security_rule" "incidental_allow_trust
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = oci_core_network_security_group.trusted.id
-  source_type                = "NETWORK_SECURITY_GROUP"
+  source_type               = "NETWORK_SECURITY_GROUP"
 
   tcp_options {
     destination_port_range {
@@ -144,8 +144,8 @@ data "oci_core_images" "test_image" {
 resource "oci_core_instance" "target" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  shape                = "VM.Standard.E2.1.Micro"
-  display_name         = "ocigoat-scn-net-002-target"
+  shape = "VM.Standard.E2.1.Micro"
+  display_name = "ocigoat-scn-net-002-target"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public.id
@@ -197,8 +197,8 @@ resource "oci_core_instance" "target" {
 resource "oci_core_instance" "prober" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  shape                = "VM.Standard.E2.1.Micro"
-  display_name         = "ocigoat-scn-net-002-prober"
+  shape = "VM.Standard.E2.1.Micro"
+  display_name = "ocigoat-scn-net-002-prober"
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public.id
