@@ -12,7 +12,7 @@ OCIGoat is OCI-first. It is not a multi-cloud tool, and it doesn't try to be.
 
 ## Status
 
-Early. Seven validated scenarios so far. No CLI yet, you run Terraform
+Early. Eight validated scenarios so far. No CLI yet, you run Terraform
 directly. Treat this as a working prototype, not a finished product.
 
 ## Requirements
@@ -34,6 +34,7 @@ directly. Treat this as a working prototype, not a finished product.
 | [SCN-STORAGE-001](scenarios/SCN-STORAGE-001) | Public Bucket Listing Exposure | storage | easy |
 | [SCN-IAM-004](scenarios/SCN-IAM-004) | Compartment-Scoped Dynamic Group Self-Enrollment | iam, compute | hard |
 | [SCN-REGISTRY-001](scenarios/SCN-REGISTRY-001) | Public Container Repository Exposure | container-registry | easy |
+| [SCN-OKE-001](scenarios/SCN-OKE-001) | Public Kubernetes API Endpoint Exposure | oke | easy |
 
 Each scenario lives in its own folder under `scenarios/`, with its own
 Terraform, a player README (objective, no spoilers), and a separate
