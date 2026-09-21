@@ -1,0 +1,42 @@
+id: SCN-VAULT-001
+name: Compartment-Scoped Secret Policy Without Target Condition
+version: 1.0.0
+
+category:
+  - vault
+  - secrets
+  - privilege-escalation
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - kms_vault
+  - kms_key
+  - vault_secret
+  - identity_group
+  - identity_user
+  - identity_user_group_membership
+  - identity_api_key
+  - identity_policy
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+
+cost:
+  always_free_preferred: true
+  notes: >
+    Software-protected keys and Secret Management are both listed as
+    Free on Oracle's official price list. This scenario never creates
+    an HSM-protected key, a virtual private vault, or an external key
+    manager, all of which are billed. Identity resources do not appear
+    as billed line items on any Oracle pricing page checked for this
+    project. Always run terraform destroy when done.
