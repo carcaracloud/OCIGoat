@@ -1,0 +1,34 @@
+id: SCN-REGISTRY-002
+name: Secret Embedded in a Public Container Image Layer
+version: 1.0.0
+
+category:
+  - container-registry
+  - credential-hygiene
+  - data-exposure
+
+difficulty: easy
+
+cloud:
+  provider: oracle
+  platform: oci
+
+resources:
+  - artifacts_container_repository
+
+lifecycle:
+  deploy: terraform
+  destroy: terraform
+
+requirements:
+  terraform: ">=1.5.0"
+  oci_provider: "9.2.0"
+  docker: any recent version
+
+cost:
+  always_free_preferred: true
+  notes: >
+    You are charged for stored images, per the Cloud Price List; exact
+    per-GB rate not confirmed for this project. A 2-layer fixture image
+    of a few hundred bytes is trivially far below any plausible
+    threshold. Always run terraform destroy when done.
