@@ -89,6 +89,21 @@ ocigoat destroy SCN-NET-001
 `ocigoat create` always shows the `terraform plan` before applying
 anything. Run `ocigoat --help` for the full command surface.
 
+Ten scenarios also generate a random flag on deploy, planted somewhere
+only the real exploit reaches, never a static string in this repo.
+Submit it once you find it, then generate a local certificate once
+every flaggable scenario is captured:
+
+```bash
+ocigoat submit SCN-NET-001 <flag>
+ocigoat progress
+pip install -e ".[certificate]"
+ocigoat certificate --name "Your Name"
+```
+
+The certificate is self-issued, generated entirely on your machine.
+It's a record of work done, not a proctored credential.
+
 ## Cost
 
 Scenarios are designed to fit inside the OCI Always Free tier where
