@@ -13,3 +13,11 @@ override.tf.json
 *_override.tf.json
 .oci/
 *.pem
+
+instances/
+config.yml
+__pycache__/
+*.egg-info/
+.venv/
+.pytest_cache/
+.terraform-plugin-cache/
