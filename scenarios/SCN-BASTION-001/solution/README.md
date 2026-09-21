@@ -55,6 +55,13 @@ ssh -i target-key -p 2222 opc@localhost
 This reaches an instance with no public IP at all, from a network the
 organization never approved, vetted, or even knew about.
 
+```bash
+cat flag.txt
+```
+
+Its content is an `OCIGOAT{...}` flag generated fresh for this
+deployment. Submit it with `ocigoat submit SCN-BASTION-001 <flag>`.
+
 ## What this does and doesn't prove
 
 It proves that a Bastion's own presence in an architecture diagram

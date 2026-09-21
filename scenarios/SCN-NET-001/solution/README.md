@@ -52,6 +52,9 @@ anything real:
 curl $(terraform output -raw test_service_url)
 ```
 
+The response body includes an `OCIGOAT{...}` flag, generated fresh for
+this deployment. Submit it with `ocigoat submit SCN-NET-001 <flag>`.
+
 ## What this does and doesn't prove
 
 It proves that a permissive NSG rule is sufficient by itself to make a

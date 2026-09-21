@@ -49,6 +49,15 @@ Also `HTTP 200`, from an instance that is a member of exactly one NSG
 (`trusted`), never `protected`, and never anything that references
 `protected` directly.
 
+Fetch the body, not just the status code:
+
+```bash
+curl -m 5 http://<target-private-ip>:8080/
+```
+
+It includes an `OCIGOAT{...}` flag generated fresh for this
+deployment. Submit it with `ocigoat submit SCN-NET-002 <flag>`.
+
 ## What this does and doesn't prove
 
 It proves that trusting an NSG as a rule's `source` means trusting

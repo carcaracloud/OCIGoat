@@ -72,6 +72,13 @@ In this project's own validation run, the last `curl` returned
 `HTTP/1.1 200 OK` with `Content-Length: 3035381760`, roughly 2.8GB, the
 full exported image, fetched with no OCI credential at all.
 
+Download it and mount its boot volume to reach the filesystem (a QCOW2
+export, `--export-format QCOW2` on `image export to-object`, is the
+simplest to mount locally with standard Linux tooling). Inside it,
+`/home/opc/flag.txt` holds an `OCIGOAT{...}` flag generated fresh for
+this deployment. Submit it with `ocigoat submit SCN-COMPUTE-001
+<flag>`.
+
 ## What this does and doesn't prove
 
 It proves that two individually reasonable `manage` verbs, one for

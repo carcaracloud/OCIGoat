@@ -44,7 +44,9 @@ Now request that object directly:
 curl https://objectstorage.<region>.oraclecloud.com/n/<namespace>/b/ocigoat-scn-storage-001-bucket/o/notes/handoff.txt
 ```
 
-This returns the file's contents in full.
+This returns the file's contents in full, including an `OCIGOAT{...}`
+flag generated fresh for this deployment. Submit it with `ocigoat
+submit SCN-STORAGE-001 <flag>`.
 
 ## What this does and doesn't prove
 

@@ -60,6 +60,19 @@ authenticates as them, not as the test user who created it. Any
 capability that user's group carries now belongs to whoever holds this
 key.
 
+The target user's group carries `inspect dynamic-groups in tenancy`,
+a grant the test user never had directly. Use it, as the impersonated
+identity:
+
+```bash
+oci iam dynamic-group get --dynamic-group-id $(terraform output -raw flag_target_dynamic_group_ocid) --profile impersonated
+```
+
+Its `description` holds an `OCIGOAT{...}` flag generated fresh for
+this deployment. Submit it with `ocigoat submit SCN-IAM-003 <flag>`.
+The test user's own credential cannot read this; only the impersonated
+one can.
+
 ## What this does and doesn't prove
 
 It proves that `manage users` grants full impersonation of any user in

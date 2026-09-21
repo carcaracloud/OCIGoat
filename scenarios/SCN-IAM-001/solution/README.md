@@ -61,6 +61,16 @@ This now succeeds, and returns every group in the tenancy, including
 `Administrators`. The test user granted itself visibility it never had,
 using only the permission it started with.
 
+Read the test user's own group, which it could not have inspected
+before the escalation:
+
+```bash
+oci iam group get --group-id $(terraform output -raw test_group_ocid) --profile SCN-IAM-001
+```
+
+Its `description` holds an `OCIGOAT{...}` flag generated fresh for
+this deployment. Submit it with `ocigoat submit SCN-IAM-001 <flag>`.
+
 ## What this does and doesn't prove
 
 It proves that `manage policies` is equivalent to full administrative

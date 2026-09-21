@@ -56,6 +56,21 @@ This succeeds. The instance you just created, with no credential of its
 own beyond what OCI issues it automatically, can do something the test
 user that created it never could.
 
+Read the object the dynamic group's `read all-resources` grant
+actually exposes:
+
+```bash
+oci os object get \
+  --namespace $(terraform output -raw namespace) \
+  --bucket-name $(terraform output -raw flag_bucket_name) \
+  --name $(terraform output -raw flag_object_name) \
+  --auth instance_principal \
+  --file -
+```
+
+Its content is an `OCIGOAT{...}` flag generated fresh for this
+deployment. Submit it with `ocigoat submit SCN-IAM-004 <flag>`.
+
 ## What this does and doesn't prove
 
 It proves that a dynamic group scoped by compartment membership doesn't

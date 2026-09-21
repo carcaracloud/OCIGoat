@@ -60,7 +60,15 @@ oci iam dynamic-group list --profile SCN-IAM-002
 
 This now succeeds too. The test user inherited the second group's grant
 just by joining it, using permissions that individually looked
-insufficient for that.
+insufficient for that. The listing includes a fixture dynamic group;
+read it directly:
+
+```bash
+oci iam dynamic-group get --dynamic-group-id $(terraform output -raw flag_target_dynamic_group_ocid) --profile SCN-IAM-002
+```
+
+Its `description` holds an `OCIGOAT{...}` flag generated fresh for
+this deployment. Submit it with `ocigoat submit SCN-IAM-002 <flag>`.
 
 ## What this does and doesn't prove
 

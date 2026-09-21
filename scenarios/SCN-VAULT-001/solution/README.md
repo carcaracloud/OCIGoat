@@ -35,7 +35,9 @@ oci secrets secret-bundle get --secret-id <not-intended-secret-ocid> --profile <
 
 Both calls succeed. The second one is the one that matters: the test
 user was never meant to see that secret, and nothing in the policy
-statement actually stops them.
+statement actually stops them. Its content includes an `OCIGOAT{...}`
+flag generated fresh for this deployment. Submit it with `ocigoat
+submit SCN-VAULT-001 <flag>`.
 
 ## What this does and doesn't prove
 
