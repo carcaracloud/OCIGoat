@@ -22,13 +22,33 @@ def run(args):
     manifest = scenarios.get_scenario(args.scenario_id)
     cfg = config_module.load_config()
 
-    instance_dir = instances.create_instance_dir(manifest.id, scenarios.scenario_terraform_dir(manifest))
+    scenario_terraform_dir = scenarios.scenario_terraform_dir(manifest)
+    required = tfvars.discover_required_variables(scenario_terraform_dir)
+    known_values = dict(cfg.known_values())
+    extra_vars = _parse_extra_vars(args.var)
+    # test_user_api_public_key and flag_content are filled in below, after the
+    # instance dir exists (keypair generation, flag generation) — not yet here.
+    will_be_known = set()
+    if manifest.player_credential:
+        will_be_known.add("test_user_api_public_key")
+    if manifest.flag:
+        will_be_known.add("flag_content")
+    missing = sorted(
+        name for name in required
+        if name not in extra_vars and known_values.get(name) is None and name not in will_be_known
+    )
+    if missing:
+        raise OcigoatError(
+            f"missing required variable(s) for {manifest.id}: {', '.join(missing)}. "
+            f"Pass each with --var KEY=VALUE (e.g. --var {missing[0]}=<value>)."
+        )
+
+    instance_dir = instances.create_instance_dir(manifest.id, scenario_terraform_dir)
     terraform_dir = instance_dir / "terraform"
 
     ui.info(f"instance: {instance_dir.name}")
 
     declared = tfvars.discover_declared_variables(terraform_dir)
-    known_values = dict(cfg.known_values())
 
     if manifest.player_credential:
         ui.info("generating test-operator API keypair")
@@ -46,7 +66,6 @@ def run(args):
     ui.info("terraform init")
     terraform.init(terraform_dir, paths.plugin_cache_dir(), env)
 
-    extra_vars = _parse_extra_vars(args.var)
     (instance_dir / EXTRA_VARS_FILE).write_text(json.dumps(extra_vars), encoding="utf-8")
     var_args = tfvars.build_var_args(declared, known_values, extra_vars)
 

@@ -5,12 +5,22 @@ import pytest
 
 from ocigoat.commands import create_cmd
 from ocigoat.config import Config
-from ocigoat.errors import TerraformError
+from ocigoat.errors import OcigoatError, TerraformError
 from ocigoat.manifest import Manifest
 
 from .conftest import make_scenario
 
 FLAG_EXTRA = "  flag: true\n"
+
+MAIN_TF_WITH_REQUIRED_EMAIL = """\
+variable "compartment_id" {
+  type = string
+}
+
+variable "test_user_email" {
+  type = string
+}
+"""
 
 
 def _args(scenario_id, plan_only=False, yes=True, var=None):
@@ -75,6 +85,32 @@ def test_flag_recorded_after_successful_apply(repo_root_override, home_dir_overr
     assert "SCN-FAKE-001" in data
     assert data["SCN-FAKE-001"]["submitted_at"] is None
     assert data["SCN-FAKE-001"]["flag_hash"].startswith("sha256:")
+
+
+def test_missing_required_variable_raises_before_touching_terraform(repo_root_override, home_dir_override, monkeypatch):
+    make_scenario(repo_root_override, "SCN-FAKE-003", main_tf=MAIN_TF_WITH_REQUIRED_EMAIL)
+    _patch_common(monkeypatch)
+    with patch.object(create_cmd.terraform, "init") as init_mock, \
+         patch.object(create_cmd.terraform, "plan") as plan_mock:
+        with pytest.raises(OcigoatError, match="test_user_email"):
+            create_cmd.run(_args("SCN-FAKE-003"))
+
+    init_mock.assert_not_called()
+    plan_mock.assert_not_called()
+
+    from ocigoat import instances
+
+    assert instances.find_instances() == []
+
+
+def test_missing_required_variable_satisfied_by_cli_var(repo_root_override, home_dir_override, monkeypatch):
+    make_scenario(repo_root_override, "SCN-FAKE-003", main_tf=MAIN_TF_WITH_REQUIRED_EMAIL)
+    _patch_common(monkeypatch)
+    monkeypatch.setattr(create_cmd.terraform, "apply", lambda *a, **k: 0)
+
+    code = create_cmd.run(_args("SCN-FAKE-003", var=["test_user_email=player@example.com"]))
+
+    assert code == 0
 
 
 def test_no_flag_handling_for_scenario_without_flag(repo_root_override, home_dir_override, monkeypatch):
