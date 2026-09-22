@@ -112,6 +112,13 @@ region, your tenancy's usage, and what Oracle currently offers. Check the
 cost notes in each scenario's `manifest.yml` before applying, and always run
 `terraform destroy` when you're finished.
 
+Always Free also caps you at 2 `VM.Standard.E2.1.Micro` instances
+tenancy-wide. Several scenarios use one or two of these (`SCN-NET-002`
+uses two by itself), so running more than one such scenario at a time
+will fail with a `LimitExceeded` error on that quota. Destroy the
+current scenario before creating the next one if you're on Always
+Free.
+
 ## Why this exists
 
 AWS has CloudGoat, iam-vulnerable, and a handful of others. GCP has
